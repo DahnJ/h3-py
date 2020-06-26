@@ -48,6 +48,7 @@ from .edges import (
 
 from .geo import (
     geo_to_h3,
+    geo_to_h3_vect,
     h3_to_geo,
     polyfill_polygon,
     polyfill_geojson,

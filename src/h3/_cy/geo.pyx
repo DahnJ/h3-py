@@ -1,4 +1,5 @@
 cimport h3lib
+from cython cimport boundscheck, wraparound
 from h3lib cimport bool, H3int
 from .util cimport (
     check_cell,
@@ -10,6 +11,7 @@ from .util cimport (
     coord2deg,
 )
 from libc cimport stdlib
+import numpy as np
 
 
 cpdef H3int geo_to_h3(double lat, double lng, int res) except 1:
@@ -21,6 +23,22 @@ cpdef H3int geo_to_h3(double lat, double lng, int res) except 1:
     c = deg2coord(lat, lng)
 
     return h3lib.geoToH3(&c, res)
+
+@boundscheck(False)
+@wraparound(False)
+cpdef H3int[:] geo_to_h3_vect(double[:] lat, double[:] lng, int res):
+    cdef H3int[:] results
+    results = np.empty(lat.shape[0], dtype='uint64')
+
+    check_res(res)
+    cdef:
+        h3lib.GeoCoord c
+    
+    for i in range(lat.shape[0]):
+        c = deg2coord(lat[i], lng[i])
+        results[i] = h3lib.geoToH3(&c, res)
+
+    return results
 
 
 cpdef (double, double) h3_to_geo(H3int h) except *:

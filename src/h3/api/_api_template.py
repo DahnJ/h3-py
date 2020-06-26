@@ -186,6 +186,10 @@ def _api_functions(
         """
         return _out_scalar(_cy.geo_to_h3(lat, lng, resolution))
 
+    def geo_to_h3_vect(lat, lng, resolution):
+        # TODO: Use _out_ordered?
+        return _cy.geo_to_h3_vect(lat, lng, resolution)
+
     def h3_to_geo(h):
         """
         Return the center point of an H3 cell as a lat/lng pair.
