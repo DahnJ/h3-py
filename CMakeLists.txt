@@ -19,3 +19,5 @@ add_subdirectory(src/h3lib)
 # Build the rest (other than the core library dependency) as shared
 set(BUILD_SHARED_LIBS ON)
 add_subdirectory(src/h3)
+
+set(CYTHON_ANNOTATE ON CACHE STRING "" FORCE)

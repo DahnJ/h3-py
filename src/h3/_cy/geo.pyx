@@ -33,9 +33,10 @@ cpdef H3int[:] geo_to_h3_vect(double[:] lat, double[:] lng, int res):
     check_res(res)
     cdef:
         h3lib.GeoCoord c
-    
+
     for i in range(lat.shape[0]):
-        c = deg2coord(lat[i], lng[i])
+        c.lat = h3lib.degsToRads(lat[i])
+        c.lng = h3lib.degsToRads(lng[i])
         results[i] = h3lib.geoToH3(&c, res)
 
     return results
